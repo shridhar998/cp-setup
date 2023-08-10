@@ -2,6 +2,7 @@
 using namespace std;
 #define ll long long
 #define test int tc;cin>>tc;while(tc--)
+
 void inp(){
     #ifndef ONLINE_JUDGE
     freopen("inputvs.txt","r",stdin);
