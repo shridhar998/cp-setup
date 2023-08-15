@@ -16,12 +16,23 @@ void fast(){
 void kickstart_print(int t,string x){
     cout<<"Case #"<<t<<": "<<x<<endl;
 }
-
+double myLog(int num){
+    //using taylor's series expansion for num>0
+    int iter=10000;
+    int i=1;
+    double ans=0.0;
+    while(i<iter)
+    {
+        ans+=(1.0/double(i))*pow((double(num-1)/double(num+1)),i);
+        i+=2;
+    }
+    return ans*2.0;
+}
 void solve(){
     int n;
     cin>>n;
-    
-    cout<<n<<endl;
+    double d=myLog(n)/myLog(2);
+    cout<<d<<endl;
 }
 
 int main()
