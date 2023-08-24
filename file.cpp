@@ -16,12 +16,126 @@ void fast(){
 void kickstart_print(int t,string x){
     cout<<"Case #"<<t<<": "<<x<<endl;
 }
+// vector<int> leetcode1DVectorInp(string s){
+//     vector<int> v;
+//     string temp;
+//     for(int i=0;i<s.size();i++){
+//         if(s[i]=='['){
+//             continue;
+//         }
+//         else if(s[i]==']'){
+//             if(temp.size())
+//             v.push_back(stoi(temp));
+//             temp="";
+//         }
+//         else{
+//             if(s[i]<='9' and s[i]>='0'){
+//                 temp+=s[i];
+//             }
+//             else{
+//                 if(temp.size())
+//                 v.push_back(stoi(temp));
+//                 temp="";
+//             }
+//         }
+//     }
+//     return v;
+// }
+// vector<vector<int>> leetcode2DVectorInp(string s){
+//     vector<vector<int>> v;
+//     string temp;
+//     int i=0;
+//     while(i<s.size()){
+//         if(s[i]=='['){
+//             i++;
+//             while(s[i]!=']')
+//             {
+//                 temp+=s[i];
+//                 i++;
+//             }
+//             if(s[i]==']'){
+//                 temp+=s[i];
+//                 v.push_back(leetcode1DVectorInp(temp));
+//                 temp="";
+//                 i+=2;
+//             }
+//         }
+//     }
+//     return v;
+// }
 
+
+
+
+
+
+// double cofactor(vector<vector<double>> mat,int i){
+//     double ans=0;
+    
+//     return ans;
+// }
+
+// double det(vector<vector<int>> mat){
+//     double ans=0;
+//     int n=mat.size();
+//     int sign=1;
+//     for(int i=0;i<n;i++)
+//     {
+//         ans+= sign * mat[0][i] * cofactor(mat,i);
+//         sign=-sign;
+//     }
+//     return ans;
+// }
+
+// vector<vector<double>> adjoint(vector<vector<int>> mat){
+//     int n=mat.size();
+//     vector<vector<double>> adj(n,vector<double>(n));
+//     return adj;
+// }
+// vector<vector<double>> inverse(vector<vector<int>> &mat){
+//     int n=mat.size();
+//     vector<vector<double>> inv(n,vector<double>(n));
+//     vector<vector<double>> adj=adjoint(vector<vector<int>> mat);
+//     for(int i=0;i<n;i++)
+//     {
+//         for(int j=0;j<n;j++)
+//         {
+//             inv[i][j]=(adj[i][j])/(det(mat));
+//         }
+//     }
+//     return inv;
+// }
+// vector<double> matrix_multiply(vector<vector<double>> &mat,vector<int> &res){
+//     int n=mat.size();
+//     vector<double> v(n);
+//     for(int i=0;i<n;i++)
+//     {
+//         int k=0;
+//         for(int j=0;j<n;j++)
+//         {
+//             v[i]=v[i]+(mat[i][j]*double(res[k]));
+//             k++;
+//         }
+//     }
+//     return v;
+// }
+double myLog(int num){
+    //using taylor's series expansion for num>0
+    int iter=10000;
+    int i=1;
+    double ans=0.0;
+    while(i<iter)
+    {
+        ans+=(1.0/double(i))*pow((double(num-1)/double(num+1)),i);
+        i+=2;
+    }
+    return ans*2.0;
+}
 void solve(){
     int n;
     cin>>n;
-    
-    cout<<n<<endl;
+    double d=myLog(n);
+    cout<<d<<endl;
 }
 
 int main()
