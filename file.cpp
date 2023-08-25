@@ -16,6 +16,97 @@ void fast(){
 void kickstart_print(int t,string x){
     cout<<"Case #"<<t<<": "<<x<<endl;
 }
+vector<vector<double>> getCofactor(vector<vector<double>> mat,int p,int q){
+    int i = 0, j = 0;
+    int n=mat.size();
+    vector<vector<double>> temp(n,vector<double>(n));
+    // Looping for each element of the matrix
+    for (int row = 0; row < n; row++) {
+        for (int col = 0; col < n; col++) {
+            //  Copying into temporary matrix only those
+            //  element which are not in given row and
+            //  column
+            if (row != p && col != q) {
+                temp[i][j++] = mat[row][col];
+ 
+                // Row is filled, so increase row index and
+                // reset col index
+                if (j == n - 1) {
+                    j = 0;
+                    i++;
+                }
+            }
+        }
+    }
+    return temp;
+}
+ 
+/* Recursive function for finding determinant of matrix. 
+n is current dimension of A[][]. */
+   
+
+double det(vector<vector<double>> mat, int n){
+    double ans=0.0; // Initialize result
+    //  Base case : if matrix contains single element
+    if(n==1)
+        return mat[0][0];
+    // To store cofactors
+    int sign=1; // To store sign multiplier
+    for(int i=0;i<n;i++)
+    {
+        vector<vector<double>> temp=getCofactor(mat, 0, i);
+        ans+= double(sign) * mat[0][i] * det(temp,n-1);
+        sign=-sign;
+    }
+    return ans;
+}
+ 
+ 
+// matrix is singular
+// Function to get adjoint
+vector<vector<double>> adjoint(vector<vector<double>> mat){
+    int n=mat.size();
+    vector<vector<double>> adj(n,vector<double>(n));
+    if(n==1){
+        adj[0][0]=1.0;
+        return adj;
+    }
+    int sign = 1;
+    for (int i=0;i<n;i++) {
+        for (int j=0;j<n;j++) {
+            // Get cofactor of A[i][j]
+            vector<vector<double>> temp=getCofactor(mat, i, j);
+ 
+            // sign of adj[j][i] positive if sum of row
+            // and column indexes is even.
+            sign = ((i + j) % 2 == 0) ? 1 : -1;
+ 
+            // Interchanging rows and columns to get the
+            // transpose of the cofactor matrix
+            adj[j][i] = double(sign) * (det(temp, n-1));
+        }
+    }
+    return adj;
+
+}
+// Function to calculate and store inverse
+vector<vector<double>> inverse(vector<vector<double>> &mat){
+    int n=mat.size();
+    double detm=det(mat,n);
+    vector<vector<double>> inv(n,vector<double>(n));
+    if(detm==0)
+    return inv;
+    vector<vector<double>> adj=adjoint(mat);
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<n;j++)
+        {
+            inv[i][j]=(adj[i][j])/detm;
+        }
+    }
+    return inv;
+}
+
 // vector<int> leetcode1DVectorInp(string s){
 //     vector<int> v;
 //     string temp;
@@ -65,46 +156,6 @@ void kickstart_print(int t,string x){
 // }
 
 
-
-
-
-
-// double cofactor(vector<vector<double>> mat,int i){
-//     double ans=0;
-    
-//     return ans;
-// }
-
-// double det(vector<vector<int>> mat){
-//     double ans=0;
-//     int n=mat.size();
-//     int sign=1;
-//     for(int i=0;i<n;i++)
-//     {
-//         ans+= sign * mat[0][i] * cofactor(mat,i);
-//         sign=-sign;
-//     }
-//     return ans;
-// }
-
-// vector<vector<double>> adjoint(vector<vector<int>> mat){
-//     int n=mat.size();
-//     vector<vector<double>> adj(n,vector<double>(n));
-//     return adj;
-// }
-// vector<vector<double>> inverse(vector<vector<int>> &mat){
-//     int n=mat.size();
-//     vector<vector<double>> inv(n,vector<double>(n));
-//     vector<vector<double>> adj=adjoint(vector<vector<int>> mat);
-//     for(int i=0;i<n;i++)
-//     {
-//         for(int j=0;j<n;j++)
-//         {
-//             inv[i][j]=(adj[i][j])/(det(mat));
-//         }
-//     }
-//     return inv;
-// }
 // vector<double> matrix_multiply(vector<vector<double>> &mat,vector<int> &res){
 //     int n=mat.size();
 //     vector<double> v(n);
@@ -119,6 +170,7 @@ void kickstart_print(int t,string x){
 //     }
 //     return v;
 // }
+
 double myLog(int num){
     //using taylor's series expansion for num>0
     int iter=10000;
@@ -134,8 +186,20 @@ double myLog(int num){
 void solve(){
     int n;
     cin>>n;
-    double d=myLog(n);
-    cout<<d<<endl;
+    vector<vector<double>> arr(n,vector<double>(n));
+    for(int i=0;i<n;i++)
+        for(int j=0;j<n;j++)
+            cin>>arr[i][j];
+    
+    vector<vector<double>> inv=inverse(arr);
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<n;j++)
+        {
+            cout<<inv[i][j]<<" ";
+        }
+        cout<<endl;
+    }
 }
 
 int main()
